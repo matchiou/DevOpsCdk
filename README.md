@@ -1,6 +1,7 @@
 # What
 This is a sample CDK package to deploy Gitlab, Jenkins, and SonarQube (using Docker) to an EC2 host (a m5.large instance using Amazon Linux 2).
-Cdk code is in TypeScript.
+Cdk code is in TypeScript.  
+This is definitely NOT safe to production environment.
 
 # Why
 It's part of the class project. Might as well do it in CDK.
@@ -57,3 +58,12 @@ ssh -i my_pem_file.pem ec2-user@ec2-54-185-187-106.us-west-2.compute.amazonaws.c
 
 You only need to run the `chmod` the first time you download the pem file.
 Obviously replace the DNS name with the output of `cdk deploy` command.
+
+# Clean Up
+If you want to clean up all the resources created by this project, you can simply run
+```
+cdk destroy
+```
+and follow the prompt in the console.  
+
+It will remove all the resources automatically. Keep in mind you would also lose all the data in GitLab, Jenkins, and SonarQube.
