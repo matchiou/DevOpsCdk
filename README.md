@@ -6,7 +6,7 @@ Cdk code is in TypeScript.
 It's part of the class project. Might as well do it in CDK.
 
 # About CDK
-[AWS Page](https://docs.aws.amazon.com/cdk/latest/guide/home.html)
+[AWS Page](https://docs.aws.amazon.com/cdk/latest/guide/home.html)  
 [Github Page](https://github.com/aws/aws-cdk)
 
 ## How to install cdk
@@ -43,9 +43,9 @@ DevOpsCdkStack.devOpsInstanceDNS = ec2-54-185-187-106.us-west-2.compute.amazonaw
 
 It would take sometime (~5 mins after the cdk deploy command finished) for these url to become available.
 
-Gitlab url would be: `http://ec2-54-185-187-106.us-west-2.compute.amazonaws.com:8000`
-Jenkins: `http://ec2-54-185-187-106.us-west-2.compute.amazonaws.com:8080`
-SonarQube: `http://ec2-54-185-187-106.us-west-2.compute.amazonaws.com:50002`
+* Gitlab: `http://ec2-54-185-187-106.us-west-2.compute.amazonaws.com:8000`
+* Jenkins: `http://ec2-54-185-187-106.us-west-2.compute.amazonaws.com:8080`
+* SonarQube: `http://ec2-54-185-187-106.us-west-2.compute.amazonaws.com:50002`
 
 ## How to ssh into the EC2 instance
 Assuming you are in the directory where the pem file exists locally, you need to run
