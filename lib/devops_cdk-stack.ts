@@ -35,6 +35,7 @@ export class DevOpsCdkStack extends cdk.Stack {
         this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(22)); // ssh access
         this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(8000)); // http port for gitlab
         this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(8433)); // https port for gitlab
+        this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(60000)); // gitlab external register port
         this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(8080)); // jenkins
         this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(50000)); // jenkins
         this.devOpsInstance.connections.allowFromAnyIpv4(ec2.Port.tcp(50002)); // SonarQube
