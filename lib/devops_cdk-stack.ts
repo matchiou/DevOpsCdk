@@ -47,7 +47,7 @@ export class DevOpsCdkStack extends cdk.Stack {
             instanceType: ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.LARGE),
             machineImage: new ec2.AmazonLinuxImage({generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2}),
             blockDevices: [{
-                deviceName: '/dev/sda1',
+                deviceName: '/dev/xvda',
                 volume: ebsVolume,
             }],
             vpcSubnets: {

@@ -4,12 +4,6 @@
 yum update -y
 yum install git -y
 
-# formatting and mounting ebs volume
-file -s /dev/sda1
-mkfs -t ext4 /dev/sda1
-mkdir /docker-deploy
-mount /dev/sda1 /docker-deploy
-
 # docker and docker compose install
 amazon-linux-extras install docker
 service docker start
@@ -34,7 +28,6 @@ mv --verbose /tmp/gitlab-runner-template-config.txt /docker-deploy/bin/gitlab-ru
 
 # set permission for entire directory
 chmod -R 755 /docker-deploy/bin
-chmod -R 777 /docker-deploy/data
 
 # setup environment variable and docker secrets that are used in docker-compose file
 dns=$(ec2-metadata -p | awk '{print $2}')
