@@ -1,7 +1,7 @@
 # What
 This is a sample CDK package to deploy Gitlab, Jenkins, and SonarQube (using Docker) to an EC2 host (a m5.large instance using Amazon Linux 2).
 Cdk code is in TypeScript.  
-This is definitely NOT safe to production environment.
+This is definitely NOT a safe setup for any production environment.
 
 # Why
 It's part of the class project. Might as well do it in CDK.
@@ -31,8 +31,10 @@ If your pem file is my_pem_file.pem, then the command would be
 
 ```
 npm run build
-cdk deploy --parameters DevOpsCdkStack:permissionFileName=my_pem_file
+cdk deploy --parameters permissionFileName=my_pem_file  --parameters jenkinsUsername=myusername --parameters jenkinsPassword=mypassword  --parameters ebsSize=50
 ```
+
+where `jenkinsUsername`, `jenkinsPassword`, and `ebsSize` are optional parameters.
 
 ## How to access Gitlab, Jenkins, and SonarQube
 The output of `cdk deploy` command will write the DNS name of EC2 instance to the console.
@@ -59,11 +61,20 @@ ssh -i my_pem_file.pem ec2-user@ec2-54-185-187-106.us-west-2.compute.amazonaws.c
 You only need to run the `chmod` the first time you download the pem file.
 Obviously replace the DNS name with the output of `cdk deploy` command.
 
+## How to debug startup.sh issue
+You need to look at the log outputs in `/var/log/cloud-init-output.log`. It's not exactly easy as the log file contains all logs related to EC2 startup.
+
+## How to set up gitlab runner
+Assuming the access token for a particular GitLab project is `asdffdsa`, ssh into ec2 host and run
+```
+./docker-deploy/bin/gitlab-runner/register.sh asdffdsa
+```
+
 # Clean Up
 If you want to clean up all the resources created by this project, you can simply run
 ```
 cdk destroy
 ```
-and follow the prompt in the console.  
+Follow the prompt in the console.  
 
 It will remove all the resources automatically. Keep in mind you would also lose all the data in GitLab, Jenkins, and SonarQube.

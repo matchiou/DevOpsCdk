@@ -1,0 +1,22 @@
+FROM jenkins/jenkins:alpine
+
+ARG JENKINS_USER
+ARG JENKINS_PASS
+
+ENV JENKINS_USER=${JENKINS_USER}
+ENV JENKINS_PASS=${JENKINS_PASS}
+
+ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
+
+COPY scripts/security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy
+
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+
+RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/plugins.txt
+USER root
+RUN apk add docker
+RUN apk add py-pip
+RUN apk add python-dev libffi-dev openssl-dev gcc libc-dev make
+RUN pip install docker-compose
+RUN apk add nodejs nodejs-npm
+RUN chown -R jenkins:jenkins $JENKINS_HOME

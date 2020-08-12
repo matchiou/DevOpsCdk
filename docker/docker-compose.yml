@@ -7,8 +7,8 @@ services:
     hostname: 'gitlab'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://localhost:8000'
-        registry_external_url 'http://localhost:60000'
+        external_url 'http://${dns}:8000'
+        registry_external_url 'http://${dns}:60000'
         registry['enable'] = true
     ports:
       - '8000:8000'
@@ -16,14 +16,17 @@ services:
       - '50001:22'
       - '60000:60000'
     volumes:
-      - 'gitlab-config:/etc/gitlab'
-      - 'gitlab-logs:/var/log/gitlab'
-      - 'gitlab-data:/var/opt/gitlab'
+      - '/docker-deploy/data/gitlab/config:/etc/gitlab'
+      - '/docker-deploy/data/gitlab/logs:/var/log/gitlab'
+      - '/docker-deploy/data/gitlab/data:/var/opt/gitlab'
 
   jenkins:
     build:
-      context: .
-      dockerfile: Dockerfile.jenkins
+      context: '/docker-deploy/bin/jenkins'
+      dockerfile: 'Dockerfile.jenkins'
+      args:
+        JENKINS_USER: '${jenkins_user}'
+        JENKINS_PASS: '${jenkins_pass}'
     container_name: jenkins-container
     restart: always
     hostname: 'jenkins'
@@ -31,7 +34,7 @@ services:
       - '8080:8080'
       - '50000:50000'
     volumes:
-      - 'jenkins_home:/var/jenkins_home'
+      - '/docker-deploy/data/jenkins/home:/var/jenkins_home'
       - '/var/run/docker.sock:/var/run/docker.sock'
 
   sonarqube:
@@ -39,66 +42,15 @@ services:
     ports:
       - '50002:9000'
     volumes:
-      - 'sonarqube_conf:/opt/sonarqube/conf'
-      - 'sonarqube_data:/opt/sonarqube/data'
-      - 'sonarqube_logs:/opt/sonarqube/logs'
-      - 'sonarqube_extensions:/opt/sonarqube/extensions'
+      - '/docker-deploy/data/sonarqube/conf:/opt/sonarqube/conf'
+      - '/docker-deploy/data/sonarqube/data:/opt/sonarqube/data'
+      - '/docker-deploy/data/sonarqube/logs:/opt/sonarqube/logs'
+      - '/docker-deploy/data/sonarqube/extensions:/opt/sonarqube/extensions'
 
   gitlab-runner1:
     image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner1
     hostname: gitlab-runner1
     volumes:
-      - 'gitlab-runner1-config:/etc/gitlab-runner'
-      - 'gitlab-runner-docker-sock:/var/run/docker.sock'
-
-#  sonarqube:
-#    image: 'sonarqube:8.4.1-community'
-#    restart: always
-#    ports:
-#      - "50002:9000"
-#      - "50092:9092"
-#    environment:
-#      - SONARQUBE_JDBC_URL=jdbc:postgresql://db/sonar
-#      - SONARQUBE_JDBC_USERNAME=sonar
-#      - SONARQUBE_JDBC_PASSWORD=sonar
-#    volumes:
-#      - sonarqube_conf:/opt/sonarqube/conf
-#      - sonarqube_data:/opt/sonarqube/data
-#      - sonarqube_logs:/opt/sonarqube/logs
-#      - sonarqube_extensions:/opt/sonarqube/extensions
-#      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
-#    depends_on:
-#      - "db"
-#    ulimits:
-#      nofile:
-#        soft: 65536
-#        hard: 65536
-#
-#  db:
-#    image: postgres:12.1
-#    restart: always
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - POSTGRES_USER=sonar
-#      - POSTGRES_PASSWORD=sonar
-#      - POSTGRES_DB=sonar
-#    volumes:
-#      - postgresql:/var/lib/postgresql
-#      - postgresql_data:/var/lib/postgresql/data
-
-volumes:
-  gitlab-data:
-  gitlab-logs:
-  gitlab-config:
-  jenkins_home:
-  sonarqube_conf:
-  sonarqube_data:
-  sonarqube_logs:
-  sonarqube_extensions:
-#  sonarqube_bundled-plugins:
-  gitlab-runner1-config:
-  gitlab-runner-docker-sock:
-#  postgresql:
-#  postgresql_data:
+      - '/docker-deploy/data/gitlab/runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'

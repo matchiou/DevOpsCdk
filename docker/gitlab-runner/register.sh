@@ -14,5 +14,5 @@ docker exec -it gitlab-runner1 \
     --url http://"${dns}":8000/ \
     --executor docker \
     --docker-image docker:latest \
-    --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
+    --docker-memory 2G \
     --docker-privileged
