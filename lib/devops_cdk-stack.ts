@@ -7,6 +7,7 @@ import {CfnOutput, CfnParameter} from "@aws-cdk/core";
 export class DevOpsCdkStack extends cdk.Stack {
     public readonly vpc: ec2.Vpc
     public readonly devOpsInstance: ec2.Instance
+    public readonly EBS_ROOT_DEVICE_NAME = '/dev/xvda'
 
     constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
@@ -47,7 +48,7 @@ export class DevOpsCdkStack extends cdk.Stack {
             instanceType: ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.LARGE),
             machineImage: new ec2.AmazonLinuxImage({generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2}),
             blockDevices: [{
-                deviceName: '/dev/xvda',
+                deviceName: this.EBS_ROOT_DEVICE_NAME,
                 volume: ebsVolume,
             }],
             vpcSubnets: {
