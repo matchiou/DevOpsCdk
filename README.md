@@ -30,6 +30,7 @@ cdk deploy --parameters DevOpsCdkStack:permissionFileName={replace_with_your_pem
 If your pem file is my_pem_file.pem, then the command would be
 
 ```
+rm -rf cdk.out
 npm run build
 cdk deploy --parameters permissionFileName=my_pem_file  --parameters jenkinsUsername=myusername --parameters jenkinsPassword=mypassword  --parameters ebsSize=50
 ```
