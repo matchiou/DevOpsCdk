@@ -4,7 +4,7 @@ Cdk code is in TypeScript.
 This is definitely NOT a safe setup for any production environment.
 
 # Why
-It's part of the class project. Might as well do it in CDK.
+Automate the effort to deploy docker services onto an ec2 instance and reduce the possibilities of setting incorrect configurations.
 
 # About CDK
 [AWS Page](https://docs.aws.amazon.com/cdk/latest/guide/home.html)  
